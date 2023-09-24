@@ -6,6 +6,7 @@
    <meta name="viewport" content="width=device-width, initial-scale=1">
    <title>Bootstrap demo</title>
    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
+   <link href="{{ asset('image-uploader/dist/image-uploader.min.css') }}" rel="stylesheet">
    <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet">
    <style>
       body {
@@ -86,6 +87,45 @@
                   <input type="checkbox" class="show_password" onclick="showPassword()">
                   <label for="">Show Password</label>
                </div>
+
+               <div class="form-group pb-3">
+                  <label for="">Upload Profile Picture</label>
+                  <input type="file" name="" class="form-control">
+               </div>
+               <div class="form-group pb-3">
+                  <label for="">Upload Multiple Photo</label>
+                  <div class="input-images"></div>
+               </div>
+               <div class="pb-3">
+                  <div>
+                     <button type="button" class="btn btn-primary" onclick="addMoreField()"><i class="fa fa-plus"></i>
+                        Add
+                        More Fields </button>
+                  </div>
+
+                  <div id="moreItems">
+                     <div class="default" style="display: none;">
+                        <div class="row">
+                           <div class="col-xl-5">
+                              <label for="">Title</label>
+                              <input type="text" class="form-control" name="title[]">
+                           </div>
+                           <div class="col-xl-5">
+                              <label for="">Writer Name</label>
+                              <input type="text" class="form-control" name="writer_name[]">
+                           </div>
+                           <div class="col-xl-2 pt-4">
+                              <button type="button" class="btn btn-danger float-end" onclick="closeBtn(this)"><i
+                                    class="fa fa-trash"></i></button>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+
+
+
+
                <div class="form-group float-end pb-3">
                   <button type="button" class="btn btn-primary">Next <i class="fa fa-arrow-right"
                         aria-hidden="true"></i></button>
@@ -93,51 +133,18 @@
                <div class="form-group pb-3">
                   <button type="submit" class="btn btn-primary">Submit</button>
                </div>
-            </div>
-
-            <div class="col-xl-6 offset-3">
-               <div class="row pt-4">
-                  <div class="col-xl-6">
-                     <div class="form-group">
-                        <label for="">Upload Profile Picture</label>
-                        <input type="file" name="" class="form-control">
-                     </div>
-                  </div>
-                  <div class="col-xl-6">
-                     <label for="">Upload Multiple Photo</label>
-                     <div class="image">
-                        <span><i class="fa fa-cloud-upload" aria-hidden="true"></i></span>
-                        <p>Upload your Image</p>
-
-                        <input type="file" class="form-control">
-
-                     </div>
-                  </div>
-               </div>
-               <div>
-                  <button type="button" class="btn btn-primary"><i class="fa fa-plus"></i> Add More Fields </button>
-               </div>
-               <div class="row">
-                  <div class="col-xl-5">
-                     <label for="">Title</label>
-                     <input type="text" class="form-control" name="title">
-                  </div>
-                  <div class="col-xl-5">
-                     <label for="">Writer Name</label>
-                     <input type="text" class="form-control" name="writer_name">
-                  </div>
-                  <div class="col-xl-2 pt-4">
-                     <button type="button" class="btn btn-danger float-end"><i class="fa fa-trash"></i></button>
-                  </div>
-               </div>
 
             </div>
+
+
          </div>
       </form>
    </div>
    <script src="{{ asset('js/jquery-3.6.0.js') }}"></script>
    <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
+   <script src="{{ asset('image-uploader/dist/image-uploader.min.js') }}"></script>
    <script src="{{ asset('js/jquery.validate.min.js') }}"></script>
+   
    <script>
       $("#submitForm").validate({
          rules: {
@@ -194,6 +201,30 @@
             y.type = 'password';
          }
       }
+   </script>
+   <script>
+      function addMoreField() {
+         var defaultDiv = document.querySelector('.default');
+         var clonedDiv = defaultDiv.cloneNode(true);
+         clonedDiv.style.display = '';
+         var moreItemDiv = document.getElementById('moreItems');
+         moreItemDiv.appendChild(clonedDiv);
+      }
+
+      function closeBtn(button) {
+         $(button).closest('.default').remove();
+      }
+   </script>
+
+   <script>
+      $(document).ready(function() {
+         $('.input-images').imageUploader({
+            imagesInputName: 'image',
+            preloadedInputName: 'old',
+            maxSize: 2 * 1024 * 1024,
+            maxFiles: 10
+         });
+      });
    </script>
 </body>
 
